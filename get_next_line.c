@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/10/29 12:08:40 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/10/29 12:23:47 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 char	*get_next_line(int fd)
 {
-	
+	if (fd < 0)
+		return (NULL);	
 }
 
 int	main(void)
 {
 	
 }
+
+/*
+	The project will copy a line from a file descriptor.
+*/
