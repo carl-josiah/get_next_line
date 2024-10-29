@@ -6,11 +6,18 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/10/23 10:19:36by ccastro          ###   ########.fr       */
+/*   Updated: 2024/10/29 12:08:40 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char *get_next_line(int fd) 
+#include "get_next_line.h"
+
+char	*get_next_line(int fd)
+{
+	
+}
+
+int	main(void)
 {
 	
 }
