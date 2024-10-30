@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:11 by ccastro           #+#    #+#             */
-/*   Updated: 2024/10/29 16:14:45 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/10/30 18:15:04 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <fcntl.h>
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 99999
 
 typedef struct s_list
 {
