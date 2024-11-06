@@ -11,10 +11,61 @@
 // 	printf("%d\n", num_of_read);
 // }
 
+// int	main(void)
+// {
+// 	int	fd;
+
+// 	fd = open("text.txt", O_RDONLY);
+// 	read_line()
+// }
+
+int	find_newline(const char *buffer)
+{
+	char	*newline;
+
+	newline = ft_strchr(buffer, '\n');
+	if (!newline)
+		return (-1);
+	return (newline - buffer);
+}
+
+char	*extract_line(const char *buffer)
+{
+	int		i;
+	int		newline_pos;
+	char	*line;
+
+	i = -1;
+	if (!buffer || *buffer == '\0')
+		return (NULL);
+	newline_pos = find_newline(buffer);
+	if (newline_pos == -1)
+	{
+		line = (char *) malloc(sizeof(char) * (ft_strlen(buffer) + 1));
+		if (!line)
+			return (NULL);
+		while (buffer[++i])
+			line[i] = buffer[i];
+		line[i] = '\0';
+		return (line);
+	}
+	line = (char *) malloc(sizeof(char) * (newline_pos + 2));
+	if (!line)
+		return (NULL);
+	while (++i <= newline_pos)
+		line[i] = buffer[i];
+	line[i] = '\0';
+	return (line);
+}
+
 int	main(void)
 {
-	int	fd;
+	int		fd;
+	char	buffer[BUFFER_SIZE];
+	char	*line;
 
 	fd = open("text.txt", O_RDONLY);
-	read_line()
+	read(fd, &buffer, 5);
+	line = extract_line(buffer);
+	printf("%s\n", line);
 }
