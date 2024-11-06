@@ -6,14 +6,16 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/06 15:37:44 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:12:18 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd);
 int		find_newline(const char *buffer);
+char	*extract_line(const char *buffer);
+char	*save_remaining(const char *buffer);
+char	*get_next_line(int fd);
 
 int	find_newline(const char *buffer)
 {
@@ -54,20 +56,37 @@ char	*extract_line(const char *buffer)
 	return (line);
 }
 
+char	*save_remaining(const char *buffer)
+{
+	int		i;
+	int		newline_pos;
+	char	*remaining_data;
+	
+	i = 0;
+	if (!buffer)
+		return (NULL);
+	newline_pos = find_newline(buffer);
+	if (newline_pos == -1)
+		return (NULL);
+	remaining_data = (char *) malloc(sizeof(char) * (ft_strlen(buffer) - newline_pos));
+	if (!remaining_data)
+		return (NULL);
+	while (buffer[++newline_pos])
+		remaining_data[i++] = buffer[newline_pos];
+	remaining_data[i] = '\0';
+	return (remaining_data);
+}
+
 char	*get_next_line(int fd)
 {
-	int			read_chars;
 	char		buffer[BUFFER_SIZE];
 	static char	*line;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	read_chars = 1;
-	while (read_chars > 0)
-	{
-		read_chars = read(fd, &buffer, 5);
-		
-	}
+	read(fd, &buffer, BUFFER_SIZE);
+	line = extract_line(buffer);
+	return (line);
 }
 
 int	main(void)
