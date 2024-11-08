@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/06 16:12:18 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/11/08 17:37:04 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,63 @@ char	*save_remaining(const char *buffer)
 	return (remaining_data);
 }
 
+// char	*get_next_line(int fd)
+// {
+// 	char		buffer[BUFFER_SIZE];
+// 	static char	*line;
+	
+// 	if (fd < 0 || BUFFER_SIZE <= 0)
+// 		return (NULL);
+// 	read(fd, &buffer, BUFFER_SIZE);
+// 	line = extract_line(buffer);
+// 	save_remaining(buffer);
+// 	return (line);
+// }
+
 char	*get_next_line(int fd)
 {
-	char		buffer[BUFFER_SIZE];
+	
+	char		buf[BUFFER_SIZE + 1];
+	char		*temp;
 	static char	*line;
+	int			read_chars;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	read(fd, &buffer, BUFFER_SIZE);
-	line = extract_line(buffer);
-	return (line);
+	read_chars = 1;
+	while (read_chars > 0)
+	{
+		read_chars = read(fd, buf, BUFFER_SIZE);
+		if (read_chars < 0)
+			return (NULL);
+		buf[read_chars] = '\0';
+		line = ft_strjoin(line, buf);
+		if (!line)
+			return (NULL);
+		if (find_newline(line) != -1)
+			break ;
+	}
+	temp = extract_line(line);
+	line = save_remaining(line);
+	return (temp);
 }
 
-int	main(void)
+int main(void)
 {
 	int		fd;
-	char	*buf;
+	char	*line;
 
 	fd = open("text.txt", O_RDONLY);
-	buf = get_next_line(fd);
-	printf("%s", buf);
+	if (fd < 0)
+		return (1);
+
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
 }
 
 /*
