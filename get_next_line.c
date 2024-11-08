@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/08 17:37:04 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/11/08 19:22:50 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,33 @@ char	*get_next_line(int fd)
 	line = save_remaining(line);
 	return (temp);
 }
+
+/*
+char	*get_next_line(int fd)
+{
+	int			read_chars;
+	char		*buffer;
+	char		*get_line;
+	static char	*remaining_line;
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = (char *) malloc(sizeof(char) * BUFFER_SIZE + 1);
+	read_chars = 1;
+	while (read_chars > 0)
+	{
+		read_chars = read(fd, buffer, BUFFER_SIZE);
+		if (read_chars < 0)
+			return (NULL);
+	}
+	get_line = extract_line(buffer);
+	// printf("THE GET LINE: {{%s}}\n", get_line);
+	remaining_line = save_remaining(buffer);
+	free(buffer);
+	buffer	 = ft_strdup(remaining_line);
+	return (get_line);
+}
+*/
 
 int main(void)
 {
