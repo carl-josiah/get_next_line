@@ -5,19 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 13:05:02 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/08 19:22:50 by ccastro          ###   ########.fr       */
+/*   Created: 2024/11/10 14:53:26 by ccastro           #+#    #+#             */
+/*   Updated: 2024/11/13 00:32:28 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		find_newline(const char *buffer);
-char	*extract_line(const char *buffer);
-char	*save_remaining(const char *buffer);
-char	*get_next_line(int fd);
-
-int	find_newline(const char *buffer)
+int	newline(const char *buffer)
 {
 	char	*newline;
 
@@ -27,142 +22,91 @@ int	find_newline(const char *buffer)
 	return (newline - buffer);
 }
 
-char	*extract_line(const char *buffer)
+char	*extract(const char *buffer)
 {
 	int		i;
-	int		newline_pos;
+	int		nl_pos;
 	char	*line;
 
 	i = -1;
-	if (!buffer || *buffer == '\0')
+	if (!buffer || !*buffer)
 		return (NULL);
-	newline_pos = find_newline(buffer);
-	if (newline_pos == -1)
+	nl_pos = newline(buffer);
+	if (nl_pos == -1)
 	{
 		line = (char *) malloc(sizeof(char) * (ft_strlen(buffer) + 1));
-		if (!line)
-			return (NULL);
-		while (buffer[++i])
-			line[i] = buffer[i];
-		line[i] = '\0';
-		return (line);
+		nl_pos = ft_strlen(buffer);
 	}
-	line = (char *) malloc(sizeof(char) * (newline_pos + 2));
+	else
+		line = (char *) malloc(sizeof(char) * nl_pos + 1);
 	if (!line)
 		return (NULL);
-	while (++i <= newline_pos)
+	while (++i < nl_pos)
 		line[i] = buffer[i];
 	line[i] = '\0';
 	return (line);
 }
 
-char	*save_remaining(const char *buffer)
+char	*remaining(const char *buffer)
 {
 	int		i;
-	int		newline_pos;
-	char	*remaining_data;
-	
+	int		nl_pos;
+	char	*remaining;
+
 	i = 0;
-	if (!buffer)
+	if (!buffer || !*buffer)
 		return (NULL);
-	newline_pos = find_newline(buffer);
-	if (newline_pos == -1)
+	nl_pos = newline(buffer);
+	if (nl_pos == -1)
 		return (NULL);
-	remaining_data = (char *) malloc(sizeof(char) * (ft_strlen(buffer) - newline_pos));
-	if (!remaining_data)
+	remaining = (char *) malloc(sizeof(char) * (ft_strlen(buffer) - nl_pos));
+	if (!remaining)
 		return (NULL);
-	while (buffer[++newline_pos])
-		remaining_data[i++] = buffer[newline_pos];
-	remaining_data[i] = '\0';
-	return (remaining_data);
+	while (buffer[++nl_pos])
+		remaining[i++] = buffer[nl_pos];
+	remaining[i] = '\0';
+	return (remaining);
 }
 
-// char	*get_next_line(int fd)
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		*line;
+	char		temp[BUFFER_SIZE + 1];
+	int			bytes;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+		return (NULL);
+	bytes = 1;
+	while ((!buffer || newline(buffer) == -1) && bytes > 0)
+	{
+		bytes = read(fd, temp, BUFFER_SIZE);
+		if (bytes > 0)
+		{
+			temp[bytes] = '\0';
+			buffer = ft_strjoin(buffer, temp);
+		}
+		if (bytes < 0)
+			return (NULL);
+	}
+	if (!buffer || !*buffer)
+		return (NULL);
+	line = extract(buffer);
+	buffer = remaining(buffer);
+	return (line);
+}
+
+// int	main(void)
 // {
-// 	char		buffer[BUFFER_SIZE];
-// 	static char	*line;
-	
-// 	if (fd < 0 || BUFFER_SIZE <= 0)
-// 		return (NULL);
-// 	read(fd, &buffer, BUFFER_SIZE);
-// 	line = extract_line(buffer);
-// 	save_remaining(buffer);
-// 	return (line);
+// 	int		fd;
+// 	char	*line;
+
+// 	fd = open("tests/test.txt", O_RDONLY);
+// 	line = get_next_line(fd);
+// 	free(line);
+// 	line = get_next_line(fd);
+// 	free(line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	free(line);
 // }
-
-char	*get_next_line(int fd)
-{
-	
-	char		buf[BUFFER_SIZE + 1];
-	char		*temp;
-	static char	*line;
-	int			read_chars;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	read_chars = 1;
-	while (read_chars > 0)
-	{
-		read_chars = read(fd, buf, BUFFER_SIZE);
-		if (read_chars < 0)
-			return (NULL);
-		buf[read_chars] = '\0';
-		line = ft_strjoin(line, buf);
-		if (!line)
-			return (NULL);
-		if (find_newline(line) != -1)
-			break ;
-	}
-	temp = extract_line(line);
-	line = save_remaining(line);
-	return (temp);
-}
-
-/*
-char	*get_next_line(int fd)
-{
-	int			read_chars;
-	char		*buffer;
-	char		*get_line;
-	static char	*remaining_line;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = (char *) malloc(sizeof(char) * BUFFER_SIZE + 1);
-	read_chars = 1;
-	while (read_chars > 0)
-	{
-		read_chars = read(fd, buffer, BUFFER_SIZE);
-		if (read_chars < 0)
-			return (NULL);
-	}
-	get_line = extract_line(buffer);
-	// printf("THE GET LINE: {{%s}}\n", get_line);
-	remaining_line = save_remaining(buffer);
-	free(buffer);
-	buffer	 = ft_strdup(remaining_line);
-	return (get_line);
-}
-*/
-
-int main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("text.txt", O_RDONLY);
-	if (fd < 0)
-		return (1);
-
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
-}
-
-/*
-	The project will copy a line from a file descriptor.
-*/

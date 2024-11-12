@@ -5,20 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 13:05:11 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/06 15:03:14 by ccastro          ###   ########.fr       */
+/*   Created: 2024/11/10 14:51:30 by ccastro           #+#    #+#             */
+/*   Updated: 2024/11/10 15:30:37 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
 # include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <fcntl.h>
-# define BUFFER_SIZE 1024
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
