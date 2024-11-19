@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:53:26 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/13 10:22:26 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/11/19 18:41:23 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,62 +81,66 @@ char	*get_next_line(int fd)
 	while ((!buffer || newline(buffer) == -1) && bytes > 0)
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
+		// printf("TEMP = %s\n", temp);
 		if (bytes > 0)
 		{
 			temp[bytes] = '\0';
+			// printf("TEMP before = %s\n\n\n\n", temp);
 			buffer = ft_strjoin(buffer, temp);
+			// printf("BUFFER = %s\n", buffer);
 		}
 		if (bytes < 0)
 			return (NULL);
 	}
 	if (!buffer || !*buffer)
 		return (NULL);
+	//printf("BUFFER = %s\n", buffer);
 	line = extract(buffer);
 	buffer = remaining(buffer);
 	return (line);
 }
 
+int	main(void) // free buffer somewhere, fix the indexing
+{
+	int		fd;
+	char	*line;
+
+	fd = open("tests/test.txt", O_RDONLY);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	// ft_strjoin("hello ", "world");
+	return 0;
+}
+
 // int	main(void)
 // {
-// 	int		fd;
 // 	char	*line;
-
-// 	fd = open("tests/test.txt", O_RDONLY);
-// 	line = get_next_line(fd);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
+// 	int		i;
+// 	int		fd1;
+// 	int		fd2;
+// 	int		fd3;
+// 	fd1 = open("tests/test.txt", O_RDONLY);
+// 	fd2 = open("tests/test2.txt", O_RDONLY);
+// 	fd3 = open("tests/test3.txt", O_RDONLY);
+// 	i = 1;
+// 	while (i < 7)
+// 	{
+// 		line = get_next_line(fd1);
+// 		printf("line [%02d]: %s", i, line);
+// 		free(line);
+// 		line = get_next_line(fd2);
+// 		printf("line [%02d]: %s", i, line);
+// 		free(line);
+// 		line = get_next_line(fd3);
+// 		printf("line [%02d]: %s", i, line);
+// 		free(line);
+// 		i++;
+// 	}
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	return (0);
 // }
-
-int	main(void)
-{
-	char	*line;
-	int		i;
-	int		fd1;
-	int		fd2;
-	int		fd3;
-	fd1 = open("tests/test.txt", O_RDONLY);
-	fd2 = open("tests/test2.txt", O_RDONLY);
-	fd3 = open("tests/test3.txt", O_RDONLY);
-	i = 1;
-	while (i < 7)
-	{
-		line = get_next_line(fd1);
-		printf("line [%02d]: %s", i, line);
-		free(line);
-		line = get_next_line(fd2);
-		printf("line [%02d]: %s", i, line);
-		free(line);
-		line = get_next_line(fd3);
-		printf("line [%02d]: %s", i, line);
-		free(line);
-		i++;
-	}
-	close(fd1);
-	close(fd2);
-	close(fd3);
-	return (0);
-}
