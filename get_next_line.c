@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:53:26 by ccastro           #+#    #+#             */
-/*   Updated: 2024/11/19 18:41:23 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/11/20 10:52:46 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,22 @@ char	*get_next_line(int fd)
 	while ((!buffer || newline(buffer) == -1) && bytes > 0)
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
-		// printf("TEMP = %s\n", temp);
 		if (bytes > 0)
 		{
 			temp[bytes] = '\0';
-			// printf("TEMP before = %s\n\n\n\n", temp);
 			buffer = ft_strjoin(buffer, temp);
-			// printf("BUFFER = %s\n", buffer);
 		}
 		if (bytes < 0)
 			return (NULL);
 	}
 	if (!buffer || !*buffer)
 		return (NULL);
-	//printf("BUFFER = %s\n", buffer);
 	line = extract(buffer);
 	buffer = remaining(buffer);
 	return (line);
 }
 
-int	main(void) // free buffer somewhere, fix the indexing
+int	main(void)
 {
 	int		fd;
 	char	*line;
@@ -111,8 +107,7 @@ int	main(void) // free buffer somewhere, fix the indexing
 		printf("%s\n", line);
 		free(line);
 	}
-	// ft_strjoin("hello ", "world");
-	return 0;
+	return (0);
 }
 
 // int	main(void)
