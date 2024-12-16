@@ -1,7 +1,0 @@
-hello
-trampoline laptop
-keys alphabet
-numbers garage mouse
-monitor
-speaker donkey animal rat
-fish squirrel
