@@ -6,12 +6,11 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 05:56:08 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/19 17:45:01 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/22 01:46:42 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 // char *line = NULL;
 
 // modifies the buffer that has a newline.
@@ -46,57 +45,65 @@ char    *get_dirty_line(char *buf)
     return (dirty_line);
 }
 
-char    *get_next_line(int fd)
+int	read_line(int fd, char **dirty_line)
 {
-    int             bytes;
-    char            *buf;
-    char static     *dirty_line;
-    char            *clean_line;
+	int		bytes;
+	char	*buf;
+	char	*temp;
 
-    buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
-    if (buf == NULL)
-        return (NULL);
-    if (dirty_line == NULL)
-        dirty_line = NULL;
-    bytes = 1;
-    buf[0] = '\0';
-    while (ft_strchr(buf, '\n') == NULL && bytes != 0)
-    {
-        bytes = read(fd, buf, BUFFER_SIZE);
-        buf[bytes] = '\0';
-        dirty_line = ft_strjoin(dirty_line, buf);
-    }
-    if (bytes == 0)
-        return (free(buf), free(dirty_line), NULL);
-    if (bytes == -1)
-        return (free(buf), free(dirty_line), NULL);
-    clean_line = get_clean_line(dirty_line);
-    dirty_line = get_dirty_line(buf);
-    return (free(buf), clean_line);
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buf)
+		return (-1);
+	bytes = 1;
+	while (bytes != 0 && !ft_strchr(*dirty_line, '\n'))
+	{
+		bytes = read(fd, buf, BUFFER_SIZE);
+		buf[bytes] = '\0';
+		temp = *dirty_line;
+		*dirty_line = ft_strjoin(*dirty_line, buf);
+		free(temp);
+	}
+	if (bytes < 0)
+		return (free(buf), -1);
+	return (free(buf), bytes);
 }
 
-int main(void)
+char	*get_next_line(int fd)
 {
-    int fd1 = open("text.txt", O_RDONLY);
-    
-    char *line;
-    
-    line = get_next_line(fd1);
-    free(line);
-    // printf("%s", line);
-    // line2 = get_next_line(fd2);
-    // printf("%s", line2);
-    // line = get_next_line(fd1);
-    // printf("%s", line);
-    // while (line != NULL)
-    // {
-    //     line = get_next_line(fd1);
-    //     printf("%s", line);
-    // }
-    //     free(line);
+	static char	*dirty_line;
+	char		*clean_line;
+    char        *temp;
+	int			bytes;
 
-    // char *test;
-
-    // test = updated_line("Hell\no");
-    // printf("%s", test);
+	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	bytes = read_line(fd, &dirty_line);
+	if (bytes <= 0)
+	{
+		free(dirty_line);
+		dirty_line = NULL;
+		return (NULL);
+	}
+	clean_line = get_clean_line(dirty_line);
+    temp = dirty_line;
+	dirty_line = get_dirty_line(dirty_line);
+    free(temp);
+	return (clean_line);
 }
+
+// int main(void)
+// {
+//     int fd1 = open("text.txt", O_RDONLY);
+//     // int fd2 = open("iloveyouihateyou.txt", O_RDONLY);
+
+//     char    *line;
+
+//     line = NULL;
+//     while ((line = get_next_line(fd1)) != NULL)
+//     {
+//         printf("%s", line);
+//         free(line);
+//     }
+//     free(line);
+//     close(fd1);
+// }

@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 05:51:38 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/19 17:44:35 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/22 01:46:01 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@
 # include <stdlib.h>
 # include <limits.h>
 
-char    *get_next_line(int fd);
 int     ft_strlen(const char *str);
 char    *ft_strdup(const char *str);
 char    *ft_strjoin(const char *str1, const char *str2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, int start, int len);
 char    *ft_strchr(const char *str, int c);
+char    *get_next_line(int fd);
+char *get_clean_line(char *line);
+char    *get_dirty_line(char *buf);
+int	read_line(int fd, char **dirty_line);
 
 #endif

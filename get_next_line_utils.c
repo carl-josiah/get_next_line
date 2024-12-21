@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 05:57:05 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/19 17:44:25 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/22 01:42:21 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char    *ft_strdup(const char *str)
     if (ret == NULL)
         return (NULL);
     while (str[i] != '\0')
-        ret[i++] = str[i];
+    {
+        ret[i] = str[i];
+        i++;
+    }
     ret[i] = '\0';
     return (ret);
 }
@@ -46,7 +49,7 @@ char    *ft_strjoin(const char *str1, const char *str2)
     char    *ret;
 
     if (str1 == NULL && str2 == NULL)
-        return (NULL);
+        return (ft_strdup(""));
     if (str1 == NULL)
         return (ft_strdup(str2));
     if (str2 == NULL)
@@ -57,7 +60,10 @@ char    *ft_strjoin(const char *str1, const char *str2)
     if (ret == NULL)
         return (NULL);
     while (str1[i] != '\0')
-        ret[i++] = str1[i];
+    {
+        ret[i] = str1[i];
+        i++;
+    }
     while (str2[j] != '\0')
         ret[i++] = str2[j++];
     ret[i] = '\0';
@@ -84,7 +90,7 @@ char    *ft_strchr(const char *str, int c)
     return (NULL);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, int start, int len)
 {
 	char	*str;
 	size_t	i;
@@ -104,3 +110,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str[i] = '\0';
 	return (str);
 }
+
+#include <string.h>
+
+// int main(void)
+// {
+//     char str1[16] = "condition";
+//     char str2[16] = "condition";
+//     memcpy(str1, str1 + 2, 3);
+//     printf("%s\n", str1);
+//     memmove(str2, str2 + 2, 3);
+//     printf("%s\n", str2);
+// }
