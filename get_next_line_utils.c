@@ -6,13 +6,13 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 05:57:05 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/22 01:42:21 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/22 17:10:17 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int  ft_strlen(const char *str)
+int ft_strlen(const char *str)
 {
     int  i;
 
@@ -110,15 +110,3 @@ char	*ft_substr(char const *s, int start, int len)
 	str[i] = '\0';
 	return (str);
 }
-
-#include <string.h>
-
-// int main(void)
-// {
-//     char str1[16] = "condition";
-//     char str2[16] = "condition";
-//     memcpy(str1, str1 + 2, 3);
-//     printf("%s\n", str1);
-//     memmove(str2, str2 + 2, 3);
-//     printf("%s\n", str2);
-// }
