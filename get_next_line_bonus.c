@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:22:41 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/25 02:44:05 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/25 03:29:46 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,9 @@ char	*get_next_line(int fd)
 
 	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (line[fd] == NULL)
-		line[fd] = NULL;
 	bytes = read_line(fd, &line[fd]);
 	if (bytes <= 0 && line[fd] == NULL)
 		return (NULL);
-	if (bytes <= 0 && *line[fd] == '\0')
-	{
-		free(line[fd]);
-		line[fd] = NULL;
-	}
 	clean_line = get_clean_line(line[fd]);
 	temp = line[fd];
 	line[fd] = get_dirty_line(line[fd]);
