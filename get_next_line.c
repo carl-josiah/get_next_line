@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:22:41 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/24 21:01:26 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/25 01:01:46 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,19 @@ char	*get_next_line(int fd)
 	line = get_dirty_line(line);
 	return (free(temp), clean_line);
 }
+
+// int	main(void)
+// {
+// 	int fd1 = open("tests/text1.txt", O_RDONLY);
+// 	char *line;
+
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	while (line)
+// 	{
+// 		line = get_next_line(fd1);
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+// }

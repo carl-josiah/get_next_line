@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:22:41 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/24 00:31:28 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/25 02:44:05 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,43 @@ char	*get_next_line(int fd)
 	line[fd] = get_dirty_line(line[fd]);
 	return (free(temp), clean_line);
 }
+
+// int	main(void)
+// {
+// 	int fd1 = open("tests/text1.txt", O_RDONLY);
+// 	int fd2 = open("tests/text2.txt", O_RDONLY);
+// 	int fd3 = open("tests/text3.txt", O_RDONLY);
+// 	char *line1 = get_next_line(fd1);
+// 	char *line2 = get_next_line(fd2);
+// 	char *line3 = get_next_line(fd3);
+
+// 	printf("%s", line1);
+// 	free(line1);
+// 	while (line1)
+// 	{
+// 		line1 = get_next_line(fd1);
+// 		printf("%s", line1);
+// 		free(line1);
+// 	}
+// 	close(fd1);
+// 	printf("\n||||||||||||||||||||||||||||||||||||\n");
+// 	printf("%s", line2);
+// 	free(line2);
+// 	while (line2)
+// 	{
+// 		line2 = get_next_line(fd2);
+// 		printf("%s", line2);
+// 		free(line2);
+// 	}
+// 	close(fd2);
+// 	printf("\n||||||||||||||||||||||||||||||||||||\n");
+// 	printf("%s", line3);
+// 	free(line3);
+// 	while (line3)
+// 	{
+// 		line3 = get_next_line(fd3);
+// 		printf("%s", line3);
+// 		free(line3);
+// 	}
+// 	close(fd3);
+// }
