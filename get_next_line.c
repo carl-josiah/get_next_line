@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:22:41 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/25 03:29:45 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/26 01:51:58 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	read_line(int fd, char **dirty_line)
 	char	*buf;
 	char	*temp;
 
+	if (BUFFER_SIZE <= 0)
+		return (-1);
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (buf == NULL)
 		return (-1);
@@ -85,9 +87,10 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int fd1 = open("tests/text1.txt", O_RDONLY);
+// 	int	fd1; 
 // 	char *line;
 
+// 	fd1 = open("tests/text1.txt", O_RDONLY);
 // 	line = get_next_line(fd1);
 // 	printf("%s", line);
 // 	free(line);
