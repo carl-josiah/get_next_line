@@ -6,7 +6,7 @@
 /*   By: ccastro <ccastro@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:22:41 by ccastro           #+#    #+#             */
-/*   Updated: 2024/12/26 01:51:58 by ccastro          ###   ########.fr       */
+/*   Updated: 2024/12/27 16:20:03 by ccastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_next_line(int fd)
 	char			*clean_line;
 	char			*temp;
 
-	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	bytes = read_line(fd, &line);
 	if (bytes <= 0 && line == NULL)
@@ -87,17 +87,9 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int	fd1; 
-// 	char *line;
+// 	int	fd = open("tests/text1.txt", O_RDONLY);
 
-// 	fd1 = open("tests/text1.txt", O_RDONLY);
-// 	line = get_next_line(fd1);
+// 	char	*line = get_next_line(fd);
 // 	printf("%s", line);
 // 	free(line);
-// 	while (line)
-// 	{
-// 		line = get_next_line(fd1);
-// 		printf("%s", line);
-// 		free(line);
-// 	}
 // }
